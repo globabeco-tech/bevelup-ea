@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)file:///Users/rashaedoyle/Downloads/bevelup_ea_dashboard_3.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BevelUp — Executive Assistant</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500;600&display=swap');
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --cream:#F6F1E9; --deep:#18140F; --gold:#C4A050; --gold-lt:#E8D5A3;
+  --muted:#8C7B65; --border:#DDD4C0; --surface:#FDFAF3; --surface2:#F1EAD8;
+  --urgent:#7A2E2E; --reply:#2B4A3A; --fyi:#2E3D5F; --teams:#4A3A6B;
+}
+body { background:var(--cream); font-family:'DM Sans',sans-serif; color:var(--deep); font-size:13px; min-height:100vh; }
+.hdr { background:var(--deep); padding:16px 28px; display:flex; align-items:center; justify-content:space-between; }
+.hdr-l { display:flex; align-items:center; gap:14px; }
+.logo { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:300; color:var(--gold); letter-spacing:4px; text-transform:uppercase; }
+.hdr-tag { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); border-left:1px solid #333; padding-left:14px; }
+.live-pill { display:flex; align-items:center; gap:6px; background:rgba(196,160,80,.1); border:1px solid rgba(196,160,80,.3); border-radius:20px; padding:5px 12px; font-size:10px; color:var(--gold); letter-spacing:1px; }
+.dot { width:6px; height:6px; border-radius:50%; background:var(--gold); animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+.nav { background:var(--surface); border-bottom:1px solid var(--border); padding:0 28px; display:flex; overflow-x:auto; }
+.tab { padding:13px 15px; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; transition:.2s; font-weight:500; white-space:nowrap; }
+.tab.active { color:var(--deep); border-bottom-color:var(--gold); }
+.tab:hover:not(.active) { color:var(--deep); }
+.badge { display:inline-flex; align-items:center; justify-content:center; width:15px; height:15px; border-radius:50%; background:var(--gold); color:var(--deep); font-size:8px; font-weight:700; margin-left:5px; vertical-align:middle; }
+.badge-red { background:var(--urgent); color:#fff; }
+.main { padding:22px 28px; }
+.row { display:flex; gap:20px; align-items:flex-start; }
+.col-main { flex:1; min-width:0; }
+.col-side { width:240px; flex-shrink:0; }
+.sec-hdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.sec-title { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:400; }
+.sec-sub { font-size:10px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-top:2px; }
+.btn { border:none; cursor:pointer; font-family:'DM Sans',sans-serif; transition:.2s; border-radius:2px; }
+.btn-dark { background:var(--deep); color:var(--gold); padding:8px 16px; font-size:9px; letter-spacing:2px; text-transform:uppercase; }
+.btn-dark:hover { background:var(--gold); color:var(--deep); }
+.btn-dark:disabled { opacity:.45; cursor:not-allowed; }
+.btn-outline { background:transparent; color:var(--deep); border:1px solid var(--border); padding:6px 12px; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; cursor:pointer; font-family:'DM Sans',sans-serif; border-radius:2px; transition:.2s; }
+.btn-outline:hover { border-color:var(--gold); color:var(--gold); }
+.btn-gold { background:var(--gold); color:var(--deep); padding:7px 14px; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; border-radius:2px; border:none; transition:.2s; }
+.btn-gold:hover { background:var(--gold-lt); }
+.btn-sm { padding:5px 10px !important; font-size:8px !important; }
+.btn-microsoft { background:#0078d4; color:#fff; border:none; padding:10px 20px; font-size:12px; font-family:'DM Sans',sans-serif; border-radius:3px; cursor:pointer; display:flex; align-items:center; gap:10px; font-weight:500; transition:.2s; }
+.btn-microsoft:hover { background:#106ebe; }
+.persona-bar { background:var(--deep); border-radius:3px; padding:12px 16px; margin-bottom:18px; display:flex; align-items:center; justify-content:space-between; }
+.persona-info { display:flex; align-items:center; gap:10px; }
+.persona-avatar { width:30px; height:30px; border-radius:50%; background:var(--gold); display:flex; align-items:center; justify-content:center; font-family:'Cormorant Garamond',serif; font-size:14px; color:var(--deep); font-weight:600; }
+.persona-name { color:#fff; font-size:12px; font-weight:500; }
+.persona-role { color:var(--muted); font-size:10px; margin-top:1px; }
+.status-connected { color:#4CAF50; font-size:10px; letter-spacing:1px; }
+.status-disconnected { color:var(--gold); font-size:10px; letter-spacing:1px; cursor:pointer; border-bottom:1px solid rgba(196,160,80,.3); }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:3px; margin-bottom:8px; overflow:hidden; transition:.15s; }
+.card:hover { box-shadow:0 2px 10px rgba(0,0,0,.07); }
+.card.vip { border-left:3px solid var(--gold); }
+.card-hdr { padding:13px 16px; display:flex; align-items:flex-start; gap:12px; cursor:pointer; }
+.card-icon { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; margin-top:1px; }
+.icon-urgent { background:rgba(122,46,46,.12); color:var(--urgent); }
+.icon-reply { background:rgba(43,74,58,.12); color:var(--reply); }
+.icon-fyi { background:rgba(46,61,95,.12); color:var(--fyi); }
+.card-meta { flex:1; min-width:0; }
+.card-from { font-weight:600; font-size:12px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.card-subj { color:var(--muted); font-size:11px; margin-top:2px; }
+.card-preview { color:var(--deep); font-size:11px; margin-top:3px; opacity:.7; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.card-time { font-size:10px; color:var(--muted); flex-shrink:0; margin-top:2px; }
+.pill { display:inline-flex; align-items:center; padding:2px 7px; border-radius:10px; font-size:8px; letter-spacing:1px; text-transform:uppercase; font-weight:600; }
+.pill-urgent { background:rgba(122,46,46,.1); color:var(--urgent); }
+.pill-reply { background:rgba(43,74,58,.1); color:var(--reply); }
+.pill-fyi { background:rgba(46,61,95,.1); color:var(--fyi); }
+.pill-vip { background:rgba(196,160,80,.15); color:#9A7830; }
+.card-body { display:none; padding:12px 16px 14px 60px; border-top:1px solid var(--border); }
+.card-body.open { display:block; }
+.draft-box { background:var(--surface2); border:1px solid var(--border); border-radius:3px; padding:12px 14px; margin-bottom:12px; }
+.draft-label { font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:8px; }
+.draft-text { font-size:12px; line-height:1.7; color:var(--deep); white-space:pre-wrap; outline:none; }
+.draft-text:focus { background:rgba(196,160,80,.04); border-radius:2px; }
+.card-actions { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.generating { font-size:11px; color:var(--muted); font-style:italic; display:flex; align-items:center; gap:8px; margin-bottom:12px; }
+.spinner { width:14px; height:14px; border:2px solid var(--border); border-top-color:var(--gold); border-radius:50%; animation:spin .7s linear infinite; flex-shrink:0; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.sent-confirm { background:rgba(43,74,58,.08); border:1px solid rgba(43,74,58,.2); border-radius:3px; padding:8px 12px; font-size:11px; color:var(--reply); margin-top:8px; }
+.side-card { background:var(--surface); border:1px solid var(--border); border-radius:3px; padding:16px; margin-bottom:14px; }
+.side-title { font-family:'Cormorant Garamond',serif; font-size:16px; font-weight:400; margin-bottom:12px; }
+.vip-item { display:flex; align-items:center; gap:8px; padding:5px 0; border-bottom:1px solid var(--border); font-size:11px; }
+.vip-item:last-child { border-bottom:none; }
+.vip-dot { width:5px; height:5px; border-radius:50%; background:var(--gold); flex-shrink:0; }
+.stat-row { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid var(--border); font-size:11px; }
+.stat-row:last-child { border-bottom:none; }
+.stat-val { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:400; }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+.empty { text-align:center; padding:36px 20px; color:var(--muted); }
+.empty-icon { font-size:26px; margin-bottom:10px; }
+.empty-text { font-size:12px; line-height:1.7; }
+.connect-box { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:32px; text-align:center; margin-bottom:16px; }
+.connect-title { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:400; margin-bottom:8px; }
+.connect-sub { font-size:12px; color:var(--muted); line-height:1.7; margin-bottom:20px; }
+.connect-features { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:24px; }
+.connect-feature { background:var(--surface2); border:1px solid var(--border); border-radius:3px; padding:8px 14px; font-size:11px; color:var(--muted); }
+.folder-tab { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
+.ftab { padding:6px 12px; font-size:10px; letter-spacing:1px; text-transform:uppercase; border:1px solid var(--border); border-radius:2px; cursor:pointer; transition:.2s; background:var(--surface); }
+.ftab.active { background:var(--deep); color:var(--gold); border-color:var(--deep); }
+.ftab:hover:not(.active) { border-color:var(--gold); color:var(--gold); }
+.teams-card { background:var(--surface); border:1px solid var(--border); border-radius:3px; margin-bottom:8px; padding:13px 16px; display:flex; gap:12px; transition:.15s; }
+.teams-card:hover { box-shadow:0 2px 10px rgba(0,0,0,.07); }
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-l">
+    <div class="logo">BevelUp</div>
+    <div class="hdr-tag">Executive Assistant</div>
+  </div>
+  <div class="live-pill"><div class="dot"></div> <span id="header-status">Drafting as Rashae</span></div>
+</div>
+
+<div class="nav">
+  <div class="tab active" onclick="switchTab(&#39;inbox&#39;,this)">Inbox <span class="badge" id="inbox-badge">--</span></div>
+  <div class="tab" onclick="switchTab(&#39;action&#39;,this)">Action Required <span class="badge badge-red" id="action-badge">--</span></div>
+  <div class="tab" onclick="switchTab(&#39;invoices&#39;,this)">Invoices <span class="badge" id="inv-badge">--</span></div>
+  <div class="tab" onclick="switchTab(&#39;teams&#39;,this)">Teams <span class="badge" id="teams-badge">--</span></div>
+  <div class="tab" onclick="switchTab(&#39;calendar&#39;,this)">Calendar</div>
+  <div class="tab" onclick="switchTab(&#39;payments&#39;,this)">💳 Payments <span class="badge badge-red" id="pay-badge">!</span></div>
+  <div class="tab" onclick="switchTab(&#39;settings&#39;,this)">Settings</div>
+</div>
+
+<div class="main">
+  <div class="persona-bar">
+    <div class="persona-info">
+      <div class="persona-avatar">R</div>
+      <div>
+        <div class="persona-name">Rashae Doyle — CEO &amp; Founder, BevelUp</div>
+        <div class="persona-role">Replies drafted in Rashae's voice &nbsp;·&nbsp; VIP priority active &nbsp;·&nbsp; Both locations</div>
+      </div>
+    </div>
+    <div id="connect-status" class="status-disconnected" onclick="connectMicrosoft()">Connect Outlook ›</div>
+  </div>
+
+  <div class="row">
+    <div class="col-main">
+
+      <!-- INBOX -->
+      <div class="tab-content active" id="tab-inbox">
+        <div class="sec-hdr">
+          <div><div class="sec-title">Outlook Inbox</div><div class="sec-sub">Your real inbox · Live connection</div></div>
+          <button class="btn btn-dark" id="fetch-btn" onclick="fetchRealEmails(&#39;inbox&#39;)">Fetch Inbox</button>
+        </div>
+        <div id="email-list">
+          <div class="connect-box">
+            <div class="connect-title">Connect Your Outlook</div>
+            <div class="connect-sub">Sign in with your BevelUp Microsoft account to pull your real emails, draft replies in your voice, and send directly from this dashboard.</div>
+            <div class="connect-features">
+              <div class="connect-feature">⚡ Real-time inbox</div>
+              <div class="connect-feature">✍ Drafts in your voice</div>
+              <div class="connect-feature">⭐ VIP detection</div>
+              <div class="connect-feature">📅 Calendar access</div>
+            </div>
+            <button class="btn-microsoft" onclick="connectMicrosoft()" style="margin:0 auto;">
+              <svg width="20" height="20" viewBox="0 0 21 21" fill="none"><rect x="1" y="1" width="9" height="9" fill="#f25022"></rect><rect x="11" y="1" width="9" height="9" fill="#7fba00"></rect><rect x="1" y="11" width="9" height="9" fill="#00a4ef"></rect><rect x="11" y="11" width="9" height="9" fill="#ffb900"></rect></svg>
+              Sign in with Microsoft
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTION REQUIRED -->
+      <div class="tab-content" id="tab-action">
+        <div class="sec-hdr">
+          <div><div class="sec-title">Action Required</div><div class="sec-sub">VIP · Urgent · Needs response</div></div>
+          <button class="btn btn-dark" onclick="fetchRealEmails(&#39;action&#39;)">Fetch Folder</button>
+        </div>
+        <div id="action-list"><div class="empty"><div class="empty-icon">⚡</div><div class="empty-text">Connect Outlook to load your Action Required folder.</div></div></div>
+      </div>
+
+      <!-- INVOICES -->
+      <div class="tab-content" id="tab-invoices">
+        <div class="sec-hdr">
+          <div><div class="sec-title">Invoices &amp; Payments</div><div class="sec-sub">Bills · Statements · Financial</div></div>
+          <button class="btn btn-dark" onclick="fetchRealEmails(&#39;invoices&#39;)">Fetch Folder</button>
+        </div>
+        <div id="invoices-list"><div class="empty"><div class="empty-icon">💳</div><div class="empty-text">Connect Outlook to load your Invoices &amp; Payments folder.</div></div></div>
+      </div>
+
+      <!-- TEAMS -->
+      <div class="tab-content" id="tab-teams">
+        <div class="sec-hdr">
+          <div><div class="sec-title">Microsoft Teams</div><div class="sec-sub">Direct messages · Channels · Draft replies</div></div>
+          <div style="display:flex;gap:8px;">
+            <select id="teams-filter" style="font-family:&#39;DM Sans&#39;,sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--border);background:var(--surface);padding:7px 10px;border-radius:2px;color:var(--deep);cursor:pointer;">
+              <option value="chats">Direct Messages</option>
+              <option value="channels">Channel Messages</option>
+            </select>
+            <button class="btn btn-dark" id="teams-btn" onclick="fetchTeams()">Fetch Messages</button>
+          </div>
+        </div>
+        <div id="teams-list"><div class="empty"><div class="empty-icon">💬</div><div class="empty-text">Press <strong>Fetch Messages</strong> to load your Teams activity.<br>Sign in with Microsoft to see real messages.</div></div></div>
+      </div>
+
+      <!-- CALENDAR -->
+      <div class="tab-content" id="tab-calendar">
+        <div class="sec-hdr">
+          <div><div class="sec-title">Calendar</div><div class="sec-sub">This week · Upcoming events</div></div>
+          <button class="btn btn-dark" onclick="fetchRealCalendar()">Load Calendar</button>
+        </div>
+        <div id="cal-content"><div class="empty"><div class="empty-icon">📅</div><div class="empty-text">Connect Outlook to load your calendar.</div></div></div>
+      </div>
+
+
+      <!-- PAYMENTS -->
+      <div class="tab-content" id="tab-payments">
+        <div class="sec-hdr">
+          <div><div class="sec-title">Payment Calendar</div><div class="sec-sub">Bills · Reminders · Payroll · Auto-pay tracker</div></div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-outline" onclick="switchPayView(&#39;list&#39;)" id="pvbtn-list">List View</button>
+            <button class="btn btn-dark" onclick="switchPayView(&#39;calendar&#39;)" id="pvbtn-calendar">Calendar View</button>
+          </div>
+        </div>
+
+        <!-- ALERT BANNER -->
+        <div id="pay-alert-bar" style="display:none;"></div>
+
+        <!-- LIST VIEW -->
+        <div id="pay-list-view">
+          <!-- OVERDUE -->
+          <div id="pay-overdue-section" style="margin-bottom:20px;display:none;">
+            <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;color:var(--urgent);padding:8px 0;border-bottom:1px solid var(--border);margin-bottom:8px;">Overdue — Act Now</div>
+            <div id="pay-overdue"></div>
+          </div>
+          <!-- DUE THIS WEEK -->
+          <div id="pay-week-section" style="margin-bottom:20px;display:none;">
+            <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;color:#9A7830;padding:8px 0;border-bottom:1px solid var(--border);margin-bottom:8px;">Due This Week — Reminder Active</div>
+            <div id="pay-week"></div>
+          </div>
+          <!-- DUE THIS MONTH -->
+          <div id="pay-month-section" style="margin-bottom:20px;display:none;">
+            <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;color:var(--reply);padding:8px 0;border-bottom:1px solid var(--border);margin-bottom:8px;">Due This Month</div>
+            <div id="pay-month"></div>
+          </div>
+          <!-- UPCOMING -->
+          <div id="pay-upcoming-section" style="margin-bottom:20px;display:none;">
+            <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;color:var(--muted);padding:8px 0;border-bottom:1px solid var(--border);margin-bottom:8px;">Upcoming — Next 60 Days</div>
+            <div id="pay-upcoming"></div>
+          </div>
+          <!-- PAYROLL -->
+          <div style="margin-bottom:20px;">
+            <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;color:var(--teams);padding:8px 0;border-bottom:1px solid var(--border);margin-bottom:8px;">Payroll Schedule — Bi-Weekly &amp; Monthly</div>
+            <div id="pay-payroll"></div>
+          </div>
+        </div>
+
+        <!-- CALENDAR VIEW -->
+        <div id="pay-calendar-view" style="display:none;">
+          <div id="pay-cal-grid"></div>
+        </div>
+
+        <!-- AUTOPAY RECOMMENDATION -->
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:16px;margin-top:8px;">
+          <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--reply);font-weight:600;margin-bottom:10px;">Auto-Pay Setup Recommendations</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.8;">
+            The following vendors are strong candidates for auto-pay or ACH based on payment consistency:<br>
+            <strong style="color:var(--deep);">McKesson, Allergan, SkinBetter, Elastin, Total Air Solutions, Laundry Company</strong><br>
+            Setting these up on auto-pay would eliminate 6 manual payments per month and reduce late payment risk. Recommend consolidating all auto-pay to the 1st and 15th of each month for easier cash flow tracking.
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="tab-content" id="tab-settings">
+        <div class="sec-hdr"><div><div class="sec-title">EA Settings</div><div class="sec-sub">Connection · VIP rules · Voice</div></div></div>
+        <div class="side-card" style="max-width:500px;margin-bottom:16px;">
+          <div class="side-title">Microsoft Connection</div>
+          <div style="font-size:12px;line-height:1.8;color:var(--muted);margin-bottom:14px;">Sign in with your BevelUp Microsoft account to connect your real Outlook inbox, calendar, and Teams.</div>
+          <button class="btn-microsoft" onclick="connectMicrosoft()">
+            <svg width="16" height="16" viewBox="0 0 21 21" fill="none"><rect x="1" y="1" width="9" height="9" fill="#f25022"></rect><rect x="11" y="1" width="9" height="9" fill="#7fba00"></rect><rect x="1" y="11" width="9" height="9" fill="#00a4ef"></rect><rect x="11" y="11" width="9" height="9" fill="#ffb900"></rect></svg>
+            <span id="ms-btn-text">Sign in with Microsoft</span>
+          </button>
+          <div id="ms-user-info" style="display:none;margin-top:12px;padding:10px 12px;background:var(--surface2);border-radius:3px;font-size:11px;color:var(--reply);"></div>
+        </div>
+        <div class="side-card" style="max-width:500px;">
+          <div class="side-title">VIP Priority Senders</div>
+          <div class="vip-item"><div class="vip-dot"></div>Ben Dachapalli</div>
+          <div class="vip-item"><div class="vip-dot"></div>Midtown Retail</div>
+          <div class="vip-item"><div class="vip-dot"></div>Cushman and Wakefield</div>
+          <div class="vip-item"><div class="vip-dot"></div>Gallagher</div>
+          <div class="vip-item"><div class="vip-dot"></div>Bank of America</div>
+          <div class="vip-item"><div class="vip-dot"></div>American Express / Amex</div>
+          <div class="vip-item"><div class="vip-dot"></div>Accountant / Accounting / Apex</div>
+          <div class="vip-item"><div class="vip-dot"></div>Paychex</div>
+          <div class="vip-item"><div class="vip-dot"></div>Any bank-related sender</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="col-side">
+      <div class="side-card">
+        <div class="side-title">Session</div>
+        <div class="stat-row"><span>Emails loaded</span><span class="stat-val" id="stat-fetched">--</span></div>
+        <div class="stat-row"><span>VIP flagged</span><span class="stat-val" id="stat-vip">--</span></div>
+        <div class="stat-row"><span>Drafts ready</span><span class="stat-val" id="stat-drafts">--</span></div>
+        <div class="stat-row"><span>Sent</span><span class="stat-val" id="stat-sent">0</span></div>
+      </div>
+      <div class="side-card">
+        <div class="side-title">VIP Priority</div>
+        <div class="vip-item"><div class="vip-dot"></div>Ben Dachapalli</div>
+        <div class="vip-item"><div class="vip-dot"></div>Midtown Retail</div>
+        <div class="vip-item"><div class="vip-dot"></div>Cushman &amp; Wakefield</div>
+        <div class="vip-item"><div class="vip-dot"></div>Gallagher</div>
+        <div class="vip-item"><div class="vip-dot"></div>Bank of America</div>
+        <div class="vip-item"><div class="vip-dot"></div>Amex / Any Bank</div>
+        <div class="vip-item"><div class="vip-dot"></div>Accountant / Apex</div>
+        <div class="vip-item"><div class="vip-dot"></div>Paychex</div>
+      </div>
+      <div class="side-card">
+        <div class="side-title">Quick Actions</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <button class="btn btn-outline" style="width:100%;text-align:left;" onclick="connectMicrosoft()">🔒 &nbsp;Connect Outlook</button>
+          <button class="btn btn-outline" style="width:100%;text-align:left;" onclick="switchTabByName(&#39;calendar&#39;)">📅 &nbsp;View Calendar</button>
+          <button class="btn btn-outline" style="width:100%;text-align:left;" onclick="switchTabByName(&#39;teams&#39;)">💬 &nbsp;Check Teams</button>
+          <button class="btn btn-outline" style="width:100%;text-align:left;" onclick="switchTabByName(&#39;invoices&#39;)">💳 &nbsp;Invoices &amp; Payments</button>
+          <button class="btn btn-outline" style="width:100%;text-align:left;" onclick="switchTabByName(&#39;payments&#39;)">📅 &nbsp;Payment Calendar</button>
+          <button class="btn btn-outline" style="width:100%;text-align:left;" onclick="switchTabByName(&#39;action&#39;)">⚡ &nbsp;Action Required</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────
+// IMPORTANT: Replace these with your actual credentials
+var CLIENT_ID = '7d178740-cdd7-46f6-bafb-bc82514fe3e0';
+var TENANT_ID = 'def2843d-8277-47ef-be8c-214adf92c1f2';
+var REDIRECT_URI = window.location.href.split('?')[0].split('#')[0];
+var SCOPES = 'openid profile User.Read Mail.Read Mail.ReadWrite Mail.Send Calendars.Read Chat.Read Chat.ReadWrite ChannelMessage.Read.All';
+
+var VIP_KW = ['ben dachapalli','midtown retail','cushman','wakefield','gallagher','bank of america','american express','amex','accounting','accountant','paychex','apex','bank of','wells fargo'];
+var EA_PROMPT = 'You are the executive assistant AI for Rashae Doyle, CEO and Founder of BevelUp, a luxury medical aesthetics practice with two locations in Tampa, Florida (Midtown and Waterstreet).\n\nCRITICAL: Draft all replies AS Rashae Doyle, not as her assistant. Write in first person as Rashae.\n\nVOICE: Warm, polished, executive, direct, confident. BevelUp is a luxury brand.\n\nCONTEXT:\n- Clinical injector and CEO\n- Locations: Midtown and Waterstreet, Tampa FL\n- BevelMe+ membership ($179/month)\n- Protocols: The Arrival, The Foundation, The Architecture, The Refinement, The Restorative, The Clarity, The Method\n- Partners: Galderma, Alastin, Lori and Chris Harder (GloCi)\n\nVIP (flag URGENT): Ben Dachapalli, Midtown Retail, Cushman Wakefield, Gallagher, Bank of America, American Express, any bank, accountant/accounting, Apex, Paychex\n\nDRAFTING RULES:\n- Complete ready-to-send replies\n- Never open with "I hope this email finds you well"\n- Match formality of incoming email\n- Financial/legal: acknowledge receipt, confirm follow-up\n- Sign as: Rashae';
+
+var accessToken = null;
+var sentCount = 0;
+
+// ── AUTH ────────────────────────────────────────────────
+function connectMicrosoft() {
+  var authUrl = 'https://login.microsoftonline.com/' + TENANT_ID + '/oauth2/v2.0/authorize' +
+    '?client_id=' + CLIENT_ID +
+    '&response_type=token' +
+    '&redirect_uri=' + encodeURIComponent(REDIRECT_URI) +
+    '&scope=' + encodeURIComponent(SCOPES) +
+    '&response_mode=fragment' +
+    '&prompt=select_account';
+  window.location.href = authUrl;
+}
+
+function parseTokenFromHash() {
+  var hash = window.location.hash.substring(1);
+  if (!hash) return null;
+  var params = {};
+  hash.split('&').forEach(function(p) {
+    var kv = p.split('=');
+    params[kv[0]] = decodeURIComponent(kv[1] || '');
+  });
+  return params.access_token || null;
+}
+
+function onLoad() {
+  var token = parseTokenFromHash();
+  if (token) {
+    accessToken = token;
+    window.history.replaceState(null, null, window.location.pathname);
+    setConnected();
+    fetchRealEmails('inbox');
+  }
+}
+
+function setConnected() {
+  document.getElementById('connect-status').className = 'status-connected';
+  document.getElementById('connect-status').textContent = '&#10003; Outlook Connected';
+  document.getElementById('connect-status').onclick = null;
+  document.getElementById('header-status').textContent = 'Connected &mdash; Drafting as Rashae';
+  document.getElementById('ms-btn-text').textContent = 'Reconnect Microsoft';
+  document.getElementById('ms-user-info').style.display = 'block';
+  document.getElementById('ms-user-info').textContent = '&#10003; Connected to rdoyle@bevelup.com';
+}
+
+// ── GRAPH API ───────────────────────────────────────────
+async function graphGet(url) {
+  if (!accessToken) { connectMicrosoft(); return null; }
+  var resp = await fetch('https://graph.microsoft.com/v1.0' + url, {
+    headers: { 'Authorization': 'Bearer ' + accessToken }
+  });
+  if (resp.status === 401) { connectMicrosoft(); return null; }
+  return await resp.json();
+}
+
+async function graphPost(url, body) {
+  if (!accessToken) { connectMicrosoft(); return null; }
+  var resp = await fetch('https://graph.microsoft.com/v1.0' + url, {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + accessToken, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  return await resp.json();
+}
+
+// ── FETCH EMAILS ────────────────────────────────────────
+var FOLDER_MAP = {
+  inbox: '/me/mailFolders/inbox/messages',
+  action: '/me/mailFolders/ACTION REQUIRED/messages',
+  invoices: '/me/mailFolders/INVOICES & PAYMENTS/messages'
+};
+
+async function fetchRealEmails(folder) {
+  if (!accessToken) { connectMicrosoft(); return; }
+  var listId = folder + '-list';
+  if (folder === 'inbox') listId = 'email-list';
+  document.getElementById(listId).innerHTML = loadHTML('Connecting to your Outlook...');
+
+  try {
+    // Try to find the folder by name
+    var foldersData = await graphGet('/me/mailFolders?$top=50');
+    var targetFolder = null;
+    var searchName = folder === 'inbox' ? 'Inbox' : folder === 'action' ? 'ACTION REQUIRED' : 'INVOICES & PAYMENTS';
+
+    if (foldersData && foldersData.value) {
+      targetFolder = foldersData.value.find(function(f) {
+        return f.displayName.toUpperCase() === searchName.toUpperCase();
+      });
+    }
+
+    var url = targetFolder
+      ? '/me/mailFolders/' + targetFolder.id + '/messages?$top=20&$orderby=receivedDateTime desc&$select=id,subject,from,bodyPreview,receivedDateTime,isRead'
+      : '/me/messages?$top=20&$orderby=receivedDateTime desc&$select=id,subject,from,bodyPreview,receivedDateTime,isRead&$filter=parentFolderId eq \'inbox\'';
+
+    var data = await graphGet(url);
+
+    if (!data || !data.value || data.value.length === 0) {
+      document.getElementById(listId).innerHTML = '<div class="empty"><div class="empty-icon">&#128231;</div><div class="empty-text">No emails found in this folder.<br>Your inbox may already be at zero!</div></div>';
+      return;
+    }
+
+    renderRealEmails(data.value, listId);
+  } catch(e) {
+    document.getElementById(listId).innerHTML = '<div class="empty"><div class="empty-text">Could not load emails. Try reconnecting Outlook.</div></div>';
+  }
+}
+
+function renderRealEmails(emails, listId) {
+  var vipCount = 0; var draftCount = 0;
+  var html = '';
+
+  emails.forEach(function(email) {
+    var from = email.from && email.from.emailAddress ? email.from.emailAddress : {};
+    var fromName = from.name || from.address || 'Unknown';
+    var fromEmail = from.address || '';
+    var subject = email.subject || '(No subject)';
+    var preview = email.bodyPreview || '';
+    var time = email.receivedDateTime ? new Date(email.receivedDateTime).toLocaleDateString('en-US', {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}) : '';
+    var vip = isVIP(fromName + ' ' + fromEmail + ' ' + subject);
+    if (vip) vipCount++;
+    draftCount++;
+
+    html += '<div class="card' + (vip?' vip':'') + '" id="card-' + email.id.substring(0,20) + '">';
+    html += '<div class="card-hdr" onclick="toggleRealCard(\'' + email.id.substring(0,20) + '\',\'' + esc(fromName) + '\',\'' + esc(subject) + '\',\'' + esc(preview) + '\',\'' + esc(fromEmail) + '\',\'' + esc(email.id) + '\')">';
+    html += '<div class="card-icon ' + (vip?'icon-urgent':'icon-reply') + '">' + (vip?'&#9889;':'&#8617;') + '</div>';
+    html += '<div class="card-meta">';
+    html += '<div class="card-from">' + fromName + (vip?'<span class="pill pill-vip">&#11088; VIP</span>':'') + (!email.isRead?'<span class="pill pill-urgent">New</span>':'') + '</div>';
+    html += '<div class="card-subj">' + subject + '</div>';
+    html += '<div class="card-preview">' + preview + '</div>';
+    html += '</div><div class="card-time">' + time + '</div></div>';
+    html += '<div class="card-body" id="body-' + email.id.substring(0,20) + '">';
+    html += '<div id="dw-' + email.id.substring(0,20) + '"><div class="generating"><div class="spinner"></div>Generating draft in Rashae\'s voice...</div></div>';
+    html += '<div class="card-actions">';
+    html += '<button class="btn btn-gold btn-sm" onclick="sendRealReply(\'' + esc(email.id) + '\',\'' + esc(fromEmail) + '\',\'' + esc(subject) + '\',\'' + email.id.substring(0,20) + '\')">Send Reply</button>';
+    html += '<button class="btn btn-outline btn-sm" onclick="redraftReal(\'' + email.id.substring(0,20) + '\',\'' + esc(fromName) + '\',\'' + esc(subject) + '\',\'' + esc(preview) + '\')">Redraft</button>';
+    html += '<button class="btn btn-outline btn-sm" onclick="archiveCard(\'' + email.id.substring(0,20) + '\')">Archive</button>';
+    html += '</div>';
+    html += '<div id="sent-' + email.id.substring(0,20) + '" style="display:none;" class="sent-confirm">&#10003; Reply sent via Outlook</div>';
+    html += '</div></div>';
+  });
+
+  document.getElementById(listId).innerHTML = html;
+  document.getElementById('stat-fetched').textContent = emails.length;
+  document.getElementById('stat-vip').textContent = vipCount;
+  document.getElementById('stat-drafts').textContent = draftCount;
+  document.getElementById('inbox-badge').textContent = emails.length;
+  if (vipCount > 0) document.getElementById('action-badge').textContent = vipCount;
+}
+
+async function toggleRealCard(shortId, fromName, subject, preview, fromEmail, fullId) {
+  var bodyEl = document.getElementById('body-' + shortId);
+  var isOpen = bodyEl.classList.contains('open');
+  document.querySelectorAll('.card-body').forEach(function(b){b.classList.remove('open');});
+  if (!isOpen) {
+    bodyEl.classList.add('open');
+    var dw = document.getElementById('dw-' + shortId);
+    if (dw && dw.querySelector('.generating')) {
+      await buildRealDraft(shortId, fromName, subject, preview);
+    }
+  }
+}
+
+async function buildRealDraft(shortId, fromName, subject, preview) {
+  var dw = document.getElementById('dw-' + shortId);
+  dw.innerHTML = '<div class="generating"><div class="spinner"></div>Drafting in Rashae\'s voice...</div>';
+  try {
+    var resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:800,
+        system: EA_PROMPT,
+        messages:[{role:'user', content:'Draft a reply to this email.\nFrom: ' + fromName + '\nSubject: ' + subject + '\nContent: ' + preview + '\n\nWrite the complete reply body only. Sign as: Rashae'}]
+      })
+    });
+    var data = await resp.json();
+    var draft = data.content[0].text;
+    dw.innerHTML = '<div class="draft-box"><div class="draft-label">Draft Reply &mdash; Rashae\'s Voice</div><div class="draft-text" contenteditable="true" id="dt-' + shortId + '">' + draft + '</div></div>';
+  } catch(e) {
+    dw.innerHTML = '<div class="generating" style="color:var(--urgent);">Draft failed &mdash; try Redraft.</div>';
+  }
+}
+
+async function redraftReal(shortId, fromName, subject, preview) {
+  await buildRealDraft(shortId, fromName, subject, preview);
+}
+
+async function sendRealReply(emailId, toEmail, subject, shortId) {
+  var el = document.getElementById('dt-' + shortId);
+  if (!el) { alert('Wait for draft to generate first.'); return; }
+  var body = el.innerText;
+
+  try {
+    await graphPost('/me/sendMail', {
+      message: {
+        subject: 'Re: ' + subject,
+        body: { contentType: 'Text', content: body },
+        toRecipients: [{ emailAddress: { address: toEmail } }]
+      }
+    });
+    document.getElementById('sent-' + shortId).style.display = 'block';
+    sentCount++;
+    document.getElementById('stat-sent').textContent = sentCount;
+    setTimeout(function(){ archiveCard(shortId); }, 2500);
+  } catch(e) {
+    alert('Could not send. Check your connection and try again.');
+  }
+}
+
+// ── CALENDAR ────────────────────────────────────────────
+async function fetchRealCalendar() {
+  document.getElementById('cal-content').innerHTML = loadHTML('Loading your calendar...');
+  if (!accessToken) { connectMicrosoft(); return; }
+  try {
+    var now = new Date().toISOString();
+    var end = new Date(Date.now() + 7*24*60*60*1000).toISOString();
+    var data = await graphGet('/me/calendarView?startDateTime=' + now + '&endDateTime=' + end + '&$top=20&$orderby=start/dateTime&$select=subject,start,end,location,organizer');
+    if (!data || !data.value || !data.value.length) {
+      document.getElementById('cal-content').innerHTML = '<div class="empty"><div class="empty-text">No upcoming events found.</div></div>';
+      return;
+    }
+    var colors = { default:'var(--fyi)' };
+    var html = '';
+    var lastDay = '';
+    data.value.forEach(function(ev) {
+      var start = new Date(ev.start.dateTime || ev.start);
+      var day = start.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+      if (day !== lastDay) { if (lastDay) html += '</div>'; html += '<div style="margin-bottom:18px;"><div class="cal-day-hdr" style="font-family:\'Cormorant Garamond\',serif;font-size:15px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);">' + day + '</div>'; lastDay = day; }
+      var timeStr = start.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+      var loc = ev.location && ev.location.displayName ? ev.location.displayName : 'No location';
+      html += '<div style="display:flex;gap:12px;align-items:center;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:3px;margin-bottom:6px;border-left:3px solid var(--fyi);">';
+      html += '<div style="font-size:11px;color:var(--muted);width:65px;flex-shrink:0;">' + timeStr + '</div>';
+      html += '<div style="flex:1;"><div style="font-size:12px;font-weight:500;">' + ev.subject + '</div><div style="font-size:10px;color:var(--muted);margin-top:2px;">' + loc + '</div></div></div>';
+    });
+    if (lastDay) html += '</div>';
+    document.getElementById('cal-content').innerHTML = html;
+  } catch(e) {
+    document.getElementById('cal-content').innerHTML = '<div class="empty"><div class="empty-text">Could not load calendar. Try reconnecting Outlook.</div></div>';
+  }
+}
+
+// ── TEAMS ───────────────────────────────────────────────
+async function fetchTeams() {
+  var btn = document.getElementById('teams-btn');
+  btn.disabled = true; btn.textContent = 'Fetching...';
+  document.getElementById('teams-list').innerHTML = loadHTML('Connecting to Teams...');
+  if (!accessToken) { connectMicrosoft(); btn.disabled=false; btn.textContent='Fetch Messages'; return; }
+
+  try {
+    var filter = document.getElementById('teams-filter') ? document.getElementById('teams-filter').value : 'chats';
+
+    if (filter === 'chats') {
+      // Fetch direct message chats
+      var chatsData = await graphGet('/me/chats?$expand=members&$top=15');
+      if (!chatsData || !chatsData.value || !chatsData.value.length) {
+        document.getElementById('teams-list').innerHTML = '<div class="empty"><div class="empty-text">No chats found. Make sure Teams permissions are granted.</div></div>';
+        btn.disabled=false; btn.textContent='Fetch Messages'; return;
+      }
+
+      var html = '';
+      var msgPromises = chatsData.value.slice(0,10).map(async function(chat) {
+        try {
+          var msgs = await graphGet('/me/chats/' + chat.id + '/messages?$top=1&$orderby=createdDateTime desc');
+          if (msgs && msgs.value && msgs.value.length) {
+            return { chat: chat, msg: msgs.value[0] };
+          }
+        } catch(e) { return null; }
+        return null;
+      });
+
+      var results = await Promise.all(msgPromises);
+      results = results.filter(function(r){ return r && r.msg; });
+
+      if (!results.length) {
+        document.getElementById('teams-list').innerHTML = '<div class="empty"><div class="empty-text">No recent messages found.</div></div>';
+        btn.disabled=false; btn.textContent='Fetch Messages'; return;
+      }
+
+      results.forEach(function(r) {
+        var chat = r.chat;
+        var msg = r.msg;
+        var fromName = msg.from && msg.from.user ? msg.from.user.displayName : 'Unknown';
+        var fromId = msg.from && msg.from.user ? msg.from.user.id : '';
+        var bodyText = msg.body ? (msg.body.content || '').replace(/<[^>]+>/g,'').trim() : '';
+        var time = msg.createdDateTime ? new Date(msg.createdDateTime).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}) : '';
+        var chatName = chat.topic || fromName;
+        var shortId = msg.id ? msg.id.substring(0,15) : Math.random().toString(36).substring(7);
+        var initials = fromName.split(' ').map(function(n){return n[0];}).join('').substring(0,2).toUpperCase();
+
+        html += '<div class="teams-card" id="tc-' + shortId + '">';
+        html += '<div style="width:36px;height:36px;border-radius:50%;background:rgba(74,58,107,.15);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--teams);flex-shrink:0;">' + initials + '</div>';
+        html += '<div style="flex:1;min-width:0;">';
+        html += '<div style="font-weight:600;font-size:12px;display:flex;align-items:center;gap:8px;">' + fromName + '<span class="pill pill-teams">Direct</span></div>';
+        html += '<div style="font-size:11px;color:var(--muted);margin-top:2px;">' + chatName + '</div>';
+        html += '<div style="font-size:12px;margin-top:6px;line-height:1.6;color:var(--deep);">' + (bodyText.length > 150 ? bodyText.substring(0,150) + '...' : bodyText) + '</div>';
+        html += '<div id="tdw-' + shortId + '" style="margin-top:10px;"></div>';
+        html += '<div style="display:flex;gap:8px;margin-top:8px;">';
+        html += '<button class="btn btn-gold btn-sm" onclick="draftTeamsReply(\'' + shortId + '\',\'' + esc(fromName) + '\',\'' + esc(bodyText) + '\',\'' + esc(chat.id) + '\',\'' + esc(msg.id||'') + '\')">Draft Reply</button>';
+        html += '<button class="btn btn-outline btn-sm" onclick="dismissTeams(\'' + shortId + '\')">Dismiss</button>';
+        html += '</div>';
+        html += '<div id="tsent-' + shortId + '" style="display:none;" class="sent-confirm">&#10003; Reply sent via Teams</div>';
+        html += '</div>';
+        html += '<div style="font-size:10px;color:var(--muted);flex-shrink:0;">' + time + '</div>';
+        html += '</div>';
+      });
+
+      document.getElementById('teams-list').innerHTML = html;
+      document.getElementById('teams-badge').textContent = results.length;
+
+    } else {
+      // Channel messages - fetch joined teams first
+      var teamsData = await graphGet('/me/joinedTeams?$top=10');
+      if (!teamsData || !teamsData.value || !teamsData.value.length) {
+        document.getElementById('teams-list').innerHTML = '<div class="empty"><div class="empty-text">No Teams channels found.</div></div>';
+        btn.disabled=false; btn.textContent='Fetch Messages'; return;
+      }
+
+      var html = '<div style="margin-bottom:12px;font-size:11px;color:var(--muted);">Showing recent activity across your Teams channels.</div>';
+      var teamsList = teamsData.value.slice(0,5);
+
+      for (var i=0; i<teamsList.length; i++) {
+        var team = teamsList[i];
+        try {
+          var channels = await graphGet('/teams/' + team.id + '/channels?$top=3');
+          if (channels && channels.value) {
+            for (var j=0; j<Math.min(channels.value.length,2); j++) {
+              var channel = channels.value[j];
+              try {
+                var channelMsgs = await graphGet('/teams/' + team.id + '/channels/' + channel.id + '/messages?$top=3');
+                if (channelMsgs && channelMsgs.value) {
+                  channelMsgs.value.forEach(function(msg) {
+                    var fromName = msg.from && msg.from.user ? msg.from.user.displayName : 'Unknown';
+                    var bodyText = msg.body ? (msg.body.content||'').replace(/<[^>]+>/g,'').trim() : '';
+                    if (!bodyText) return;
+                    var time = msg.createdDateTime ? new Date(msg.createdDateTime).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}) : '';
+                    var shortId = msg.id ? msg.id.substring(0,15) : Math.random().toString(36).substring(7);
+                    var initials = fromName.split(' ').map(function(n){return n[0]||'';}).join('').substring(0,2).toUpperCase();
+
+                    html += '<div class="teams-card" id="tc-' + shortId + '">';
+                    html += '<div style="width:36px;height:36px;border-radius:50%;background:rgba(74,58,107,.15);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--teams);flex-shrink:0;">' + initials + '</div>';
+                    html += '<div style="flex:1;min-width:0;">';
+                    html += '<div style="font-weight:600;font-size:12px;">' + fromName + ' <span class="pill pill-teams">#' + channel.displayName + '</span></div>';
+                    html += '<div style="font-size:11px;color:var(--muted);margin-top:2px;">' + team.displayName + '</div>';
+                    html += '<div style="font-size:12px;margin-top:6px;line-height:1.6;">' + (bodyText.length>150?bodyText.substring(0,150)+'...':bodyText) + '</div>';
+                    html += '<div id="tdw-' + shortId + '" style="margin-top:10px;"></div>';
+                    html += '<div style="display:flex;gap:8px;margin-top:8px;"><button class="btn btn-outline btn-sm" onclick="draftTeamsReply(\'' + shortId + '\',\'' + esc(fromName) + '\',\'' + esc(bodyText) + '\',\'\',\'\')">Draft Reply</button><button class="btn btn-outline btn-sm" onclick="dismissTeams(\'' + shortId + '\')">Dismiss</button></div>';
+                    html += '<div id="tsent-' + shortId + '" style="display:none;" class="sent-confirm">&#10003; Noted</div>';
+                    html += '</div><div style="font-size:10px;color:var(--muted);flex-shrink:0;">' + time + '</div></div>';
+                  });
+                }
+              } catch(e) {}
+            }
+          }
+        } catch(e) {}
+      }
+
+      document.getElementById('teams-list').innerHTML = html;
+    }
+
+  } catch(e) {
+    document.getElementById('teams-list').innerHTML = '<div class="empty"><div class="empty-text">Could not load Teams messages. Make sure Teams permissions are granted in Azure and admin consent is approved.</div></div>';
+  }
+
+  btn.disabled=false; btn.textContent='Refresh';
+}
+
+async function draftTeamsReply(shortId, fromName, msgBody, chatId, msgId) {
+  var dw = document.getElementById('tdw-' + shortId);
+  dw.innerHTML = '<div class="generating"><div class="spinner"></div>Drafting reply in Rashae\'s voice...</div>';
+  try {
+    var resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:500,
+        system: EA_PROMPT + '\n\nThis is a Microsoft Teams message, not an email. Keep the reply concise and conversational — Teams messages are shorter than emails. No sign-off needed for Teams.',
+        messages:[{role:'user', content:'Draft a Teams reply to this message.\nFrom: ' + fromName + '\nMessage: ' + msgBody + '\n\nWrite a concise, ready-to-send Teams reply as Rashae. Keep it brief and conversational.'}]
+      })
+    });
+    var data = await resp.json();
+    var draft = data.content[0].text;
+    dw.innerHTML = '<div class="draft-box"><div class="draft-label">Teams Draft &mdash; Rashae\'s Voice</div><div class="draft-text" contenteditable="true" id="tdt-' + shortId + '">' + draft + '</div></div>' +
+      '<button class="btn btn-gold btn-sm" style="margin-top:8px;" onclick="sendTeamsReply(\'' + shortId + '\',\'' + esc(chatId) + '\')">Send in Teams</button>';
+  } catch(e) {
+    dw.innerHTML = '<div class="generating" style="color:var(--urgent);">Draft failed. Try again.</div>';
+  }
+}
+
+async function sendTeamsReply(shortId, chatId) {
+  var el = document.getElementById('tdt-' + shortId);
+  if (!el) { alert('Wait for draft to generate.'); return; }
+  var body = el.innerText;
+
+  if (chatId) {
+    try {
+      await graphPost('/me/chats/' + chatId + '/messages', {
+        body: { contentType: 'text', content: body }
+      });
+      document.getElementById('tsent-' + shortId).style.display = 'block';
+      setTimeout(function(){ dismissTeams(shortId); }, 2500);
+      sentCount++;
+      document.getElementById('stat-sent').textContent = sentCount;
+    } catch(e) {
+      alert('Could not send Teams message. Try again.');
+    }
+  } else {
+    // Channel message - just confirm
+    document.getElementById('tsent-' + shortId).style.display = 'block';
+    document.getElementById('tsent-' + shortId).textContent = '&#10003; Draft ready — paste into Teams to send';
+    sentCount++;
+    document.getElementById('stat-sent').textContent = sentCount;
+  }
+}
+
+function dismissTeams(shortId) {
+  var c = document.getElementById('tc-' + shortId);
+  if(c){c.style.opacity='0';c.style.transition='opacity .3s';setTimeout(function(){c.remove();},300);}
+}
+
+// ── HELPERS ─────────────────────────────────────────────
+function isVIP(s) { var l=(s||'').toLowerCase(); return VIP_KW.some(function(k){return l.indexOf(k)>=0;}); }
+function esc(s) { return (s||'').replace(/'/g,' ').replace(/"/g,' ').replace(/\n/g,' ').substring(0,80); }
+function loadHTML(msg) { return '<div class="empty"><div class="spinner" style="margin:0 auto 12px;width:20px;height:20px;"></div><div class="empty-text">' + msg + '</div></div>'; }
+function archiveCard(id) { var c=document.getElementById('card-'+id); if(c){c.style.opacity='0';c.style.transition='opacity .3s';setTimeout(function(){c.remove();},300);} }
+
+var paymentsLoaded = false;
+function switchTab(name, el) {
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active');});
+  if(el) el.classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+  if (name === 'payments' && !paymentsLoaded) {
+    paymentsLoaded = true;
+    renderPayments();
+  }
+}
+
+function switchTabByName(name) {
+  var tabs = document.querySelectorAll('.tab');
+  var map = {inbox:0,action:1,invoices:2,teams:3,calendar:4,payments:5,settings:6};
+  tabs.forEach(function(t){t.classList.remove('active');});
+  if(tabs[map[name]] !== undefined) tabs[map[name]].classList.add('active');
+  document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active');});
+  document.getElementById('tab-'+name).classList.add('active');
+  if (name === 'payments' && !paymentsLoaded) {
+    paymentsLoaded = true;
+    renderPayments();
+  }
+}
+
+
+// ── PAYMENT CALENDAR ─────────────────────────────────────
+var today = new Date();
+today.setHours(0,0,0,0);
+
+var RECURRING_BILLS = [
+  { id:'b1', name:'McKesson', amount:'~$800-1,200', dueDay:1, period:'monthly', category:'Medical Supplies', autopay:false, notes:'Order supplies by 28th for 1st billing' },
+  { id:'b2', name:'Allergan Aesthetics', amount:'~$1,500-3,000', dueDay:1, period:'monthly', category:'Vendor', autopay:false, notes:'Botox/filler orders — set up ACH to avoid late fees' },
+  { id:'b3', name:'SkinBetter Science', amount:'~$500-1,000', dueDay:15, period:'monthly', category:'Retail/Vendor', autopay:false, notes:'Retail product order' },
+  { id:'b4', name:'Elastin', amount:'~$300-600', dueDay:15, period:'monthly', category:'Vendor', autopay:false, notes:'Product replenishment' },
+  { id:'b5', name:'Tampa Laundry Company', amount:'~$200-400', dueDay:1, period:'monthly', category:'Operations', autopay:false, notes:'Linen service — good auto-pay candidate' },
+  { id:'b6', name:'Total Air Solutions', amount:'~$150-300', dueDay:1, period:'monthly', category:'Facilities', autopay:false, notes:'HVAC maintenance contract' },
+  { id:'b7', name:'Bank of America Credit Card', amount:'Varies', dueDay:15, period:'monthly', category:'Financial', autopay:false, notes:'Pay in full to avoid interest — VIP priority' },
+  { id:'b8', name:'Corporate Account', amount:'Varies', dueDay:1, period:'monthly', category:'Financial', autopay:false, notes:'Review statement before paying' },
+];
+
+var PAYROLL = [
+  { id:'p1', name:'Bi-Weekly Payroll', amount:'', period:'biweekly', category:'Payroll', notes:'Submit to Paychex 3 business days before pay date', color:'var(--teams)' },
+  { id:'p2', name:'Monthly Payroll Close', amount:'', period:'monthly', dueDay:28, category:'Payroll', notes:'Review hours, submit final payroll, reconcile benefits', color:'var(--teams)' },
+];
+
+function getNextDueDate(dueDay, period) {
+  var d = new Date(today);
+  d.setDate(dueDay);
+  if (d <= today) {
+    if (period === 'monthly') {
+      d.setMonth(d.getMonth() + 1);
+    }
+  }
+  return d;
+}
+
+function getDaysUntil(date) {
+  var diff = date - today;
+  return Math.ceil(diff / (1000*60*60*24));
+}
+
+function getUrgencyClass(days) {
+  if (days < 0) return 'urgent';
+  if (days <= 3) return 'urgent';
+  if (days <= 7) return 'week';
+  if (days <= 30) return 'month';
+  return 'upcoming';
+}
+
+function paymentCard(bill, dueDate, days, showReminder) {
+  var urgency = getUrgencyClass(days);
+  var borderColor = urgency === 'urgent' ? 'var(--urgent)' : urgency === 'week' ? 'var(--gold)' : urgency === 'month' ? 'var(--reply)' : 'var(--border)';
+  var dueTxt = days < 0 ? 'Overdue by ' + Math.abs(days) + ' days' : days === 0 ? 'Due TODAY' : 'Due in ' + days + ' days';
+  var dueDateStr = dueDate.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+
+  var html = '<div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid ' + borderColor + ';border-radius:3px;padding:12px 14px;margin-bottom:7px;display:flex;align-items:center;gap:14px;">';
+  html += '<div style="flex:1;">';
+  html += '<div style="font-weight:600;font-size:12px;display:flex;align-items:center;gap:8px;">' + bill.name;
+  if (days <= 7 && days >= 0) html += '<span class="pill pill-vip">&#9888; Reminder</span>';
+  if (days < 0) html += '<span class="pill pill-urgent">OVERDUE</span>';
+  html += '</div>';
+  html += '<div style="font-size:11px;color:var(--muted);margin-top:3px;">' + bill.category + ' &middot; ' + bill.amount + '</div>';
+  html += '<div style="font-size:11px;color:var(--muted);margin-top:2px;">' + bill.notes + '</div>';
+  html += '</div>';
+  html += '<div style="text-align:right;flex-shrink:0;">';
+  html += '<div style="font-size:12px;font-weight:600;color:' + borderColor + ';">' + dueTxt + '</div>';
+  html += '<div style="font-size:10px;color:var(--muted);margin-top:2px;">' + dueDateStr + '</div>';
+  html += '<div style="margin-top:6px;display:flex;gap:6px;justify-content:flex-end;">';
+  html += '<button class="btn btn-outline btn-sm" onclick="markPaid('' + bill.id + '')">Mark Paid</button>';
+  html += '<button class="btn btn-outline btn-sm" onclick="addToCalendar('' + bill.name + '','' + dueDateStr + '')">+ Calendar</button>';
+  html += '</div></div></div>';
+  return html;
+}
+
+function buildPayrollSchedule() {
+  var html = '';
+  // Bi-weekly payroll dates for next 60 days
+  var payDates = [];
+  var start = new Date(today);
+  // Find next Friday (typical pay day)
+  var dayOfWeek = start.getDay();
+  var daysToFriday = (5 - dayOfWeek + 7) % 7;
+  if (daysToFriday === 0) daysToFriday = 14;
+  var nextPayday = new Date(start);
+  nextPayday.setDate(start.getDate() + daysToFriday);
+
+  for (var i=0; i<4; i++) {
+    var pd = new Date(nextPayday);
+    pd.setDate(nextPayday.getDate() + (i*14));
+    payDates.push(pd);
+  }
+
+  payDates.forEach(function(pd) {
+    var days = getDaysUntil(pd);
+    var submitBy = new Date(pd);
+    submitBy.setDate(pd.getDate() - 3);
+    var pdStr = pd.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'});
+    var subStr = submitBy.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    var urgent = days <= 5;
+
+    html += '<div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--teams);border-radius:3px;padding:12px 14px;margin-bottom:7px;display:flex;align-items:center;gap:14px;">';
+    html += '<div style="flex:1;"><div style="font-weight:600;font-size:12px;">Bi-Weekly Payroll &mdash; Paychex' + (urgent?'<span class="pill pill-vip" style="margin-left:8px;">&#9888; Submit Soon</span>':'') + '</div>';
+    html += '<div style="font-size:11px;color:var(--muted);margin-top:3px;">Submit to Paychex by <strong>' + subStr + '</strong> (3 business days prior)</div></div>';
+    html += '<div style="text-align:right;flex-shrink:0;"><div style="font-size:12px;font-weight:600;color:var(--teams);">Pay Date: ' + pdStr + '</div>';
+    html += '<div style="font-size:10px;color:var(--muted);margin-top:2px;">In ' + days + ' days</div>';
+    html += '<button class="btn btn-outline btn-sm" style="margin-top:6px;" onclick="addToCalendar('Paychex Payroll','' + pdStr + '')">+ Calendar</button></div></div>';
+  });
+
+  return html;
+}
+
+function renderPayments() {
+  var overdue = '', week = '', month = '', upcoming = '';
+  var overdueCount = 0, weekCount = 0;
+
+  RECURRING_BILLS.forEach(function(bill) {
+    var dueDate = getNextDueDate(bill.dueDay, bill.period);
+    var days = getDaysUntil(dueDate);
+    var urgency = getUrgencyClass(days);
+    var card = paymentCard(bill, dueDate, days, true);
+    if (urgency === 'urgent' && days < 0) { overdue += card; overdueCount++; }
+    else if (urgency === 'urgent' || urgency === 'week') { week += card; weekCount++; }
+    else if (urgency === 'month') { month += card; }
+    else { upcoming += card; }
+  });
+
+  if (overdue) { document.getElementById('pay-overdue').innerHTML = overdue; document.getElementById('pay-overdue-section').style.display='block'; }
+  if (week) { document.getElementById('pay-week').innerHTML = week; document.getElementById('pay-week-section').style.display='block'; }
+  if (month) { document.getElementById('pay-month').innerHTML = month; document.getElementById('pay-month-section').style.display='block'; }
+  if (upcoming) { document.getElementById('pay-upcoming').innerHTML = upcoming; document.getElementById('pay-upcoming-section').style.display='block'; }
+
+  document.getElementById('pay-payroll').innerHTML = buildPayrollSchedule();
+
+  // Alert bar
+  var alerts = overdueCount + weekCount;
+  if (alerts > 0) {
+    document.getElementById('pay-alert-bar').style.display = 'block';
+    document.getElementById('pay-alert-bar').innerHTML = '<div style="background:rgba(122,46,46,.08);border:1px solid rgba(122,46,46,.2);border-radius:3px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:var(--urgent);">&#9888; <strong>' + alerts + ' payment' + (alerts>1?'s':'') + '</strong> need your attention &mdash; ' + overdueCount + ' overdue, ' + weekCount + ' due within 7 days</div>';
+    document.getElementById('pay-badge').textContent = alerts;
+  } else {
+    document.getElementById('pay-badge').textContent = '&#10003;';
+  }
+
+  renderPayCalendar();
+}
+
+function renderPayCalendar() {
+  var now = new Date(today);
+  var year = now.getFullYear();
+  var month = now.getMonth();
+  var monthName = now.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+
+  var firstDay = new Date(year, month, 1).getDay();
+  var daysInMonth = new Date(year, month+1, 0).getDate();
+
+  // Build map of due dates
+  var duemap = {};
+  RECURRING_BILLS.forEach(function(b) {
+    var key = b.dueDay;
+    if (!duemap[key]) duemap[key] = [];
+    duemap[key].push(b);
+  });
+
+  var html = '<div style="font-family:'Cormorant Garamond',serif;font-size:18px;margin-bottom:14px;font-weight:400;">' + monthName + '</div>';
+  html += '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px;">';
+  var days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  days.forEach(function(d){ html += '<div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-align:center;padding:6px 0;">' + d + '</div>'; });
+
+  // Empty cells
+  for (var i=0; i<firstDay; i++) html += '<div></div>';
+
+  for (var d=1; d<=daysInMonth; d++) {
+    var isToday = d === today.getDate();
+    var hasBill = duemap[d];
+    var bg = isToday ? 'var(--gold)' : hasBill ? 'rgba(122,46,46,.08)' : 'var(--surface)';
+    var border = isToday ? 'var(--gold)' : hasBill ? 'rgba(122,46,46,.3)' : 'var(--border)';
+    var color = isToday ? 'var(--deep)' : 'var(--deep)';
+
+    html += '<div style="background:' + bg + ';border:1px solid ' + border + ';border-radius:3px;padding:6px 4px;min-height:60px;cursor:default;" title="' + (hasBill ? hasBill.map(function(b){return b.name;}).join(', ') : '') + '">';
+    html += '<div style="font-size:11px;font-weight:' + (isToday?'700':'400') + ';color:' + color + ';text-align:center;">' + d + '</div>';
+    if (hasBill) {
+      hasBill.slice(0,2).forEach(function(b) {
+        html += '<div style="font-size:8px;background:rgba(122,46,46,.12);color:var(--urgent);border-radius:2px;padding:1px 3px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + b.name.split(' ')[0] + '</div>';
+      });
+    }
+    html += '</div>';
+  }
+  html += '</div>';
+
+  // Legend
+  html += '<div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;">';
+  html += '<div style="display:flex;align-items:center;gap:6px;font-size:11px;"><div style="width:12px;height:12px;background:var(--gold);border-radius:2px;"></div>Today</div>';
+  html += '<div style="display:flex;align-items:center;gap:6px;font-size:11px;"><div style="width:12px;height:12px;background:rgba(122,46,46,.08);border:1px solid rgba(122,46,46,.3);border-radius:2px;"></div>Payment Due</div>';
+  html += '</div>';
+
+  document.getElementById('pay-cal-grid').innerHTML = html;
+}
+
+function switchPayView(view) {
+  if (view === 'list') {
+    document.getElementById('pay-list-view').style.display = 'block';
+    document.getElementById('pay-calendar-view').style.display = 'none';
+    document.getElementById('pvbtn-list').className = 'btn btn-dark';
+    document.getElementById('pvbtn-calendar').className = 'btn btn-outline';
+  } else {
+    document.getElementById('pay-list-view').style.display = 'none';
+    document.getElementById('pay-calendar-view').style.display = 'block';
+    document.getElementById('pvbtn-list').className = 'btn btn-outline';
+    document.getElementById('pvbtn-calendar').className = 'btn btn-dark';
+  }
+}
+
+function markPaid(id) {
+  var allCards = document.querySelectorAll('[data-bill-id="' + id + '"]');
+  // Find and fade the card
+  var els = document.querySelectorAll('.pay-card-' + id);
+  els.forEach(function(el){ el.style.opacity='0.3'; });
+}
+
+async function addToCalendar(name, dateStr) {
+  if (!accessToken) { alert('Connect Microsoft first to add to calendar.'); return; }
+  try {
+    var eventDate = new Date(dateStr + ' 2026');
+    var startISO = eventDate.toISOString().split('T')[0] + 'T09:00:00';
+    var endISO = eventDate.toISOString().split('T')[0] + 'T09:30:00';
+    await graphPost('/me/events', {
+      subject: 'PAYMENT DUE: ' + name,
+      start: { dateTime: startISO, timeZone: 'America/New_York' },
+      end: { dateTime: endISO, timeZone: 'America/New_York' },
+      isReminderOn: true,
+      reminderMinutesBeforeStart: 10080,
+      body: { contentType: 'text', content: 'Payment due for ' + name + '. Review invoice and process payment.' }
+    });
+    alert('Added to your Outlook calendar: ' + name);
+  } catch(e) {
+    alert('Could not add to calendar. Make sure Outlook is connected.');
+  }
+}
+
+// Run on load
+onLoad();
+</script>
+
+
+</body></html>
